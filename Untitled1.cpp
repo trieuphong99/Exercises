@@ -26,17 +26,14 @@ public:
 		size = 0;
 	}
 	
-	void addNode(int data){
-		Node* newNode = new Node(data);
-		if (head == NULL) 
-			head = newNode;
-		else {
-			Node* temp = head;
-			while (temp->next != NULL) {
-				temp = temp->next;
-			}
-			temp->next = new Node(data);
-		}
+	void addNode(struct Node* prev_node, int data){
+		Node* new_node = new Node(data);
+  
+    		new_node->data  = new_data; 
+  
+    		new_node->next = prev_node->next;  
+		
+    		prev_node->next = new_node; 
 	}
 	
 	void deleteNode(int pos) {
@@ -74,11 +71,19 @@ int main(){
     string input_operation;
     LinkedList list;
     int p,x;
+	struct Node* node;
     for(int i=0;i<num_input;i++){
         cin >> input_operation;
         if(input_operation=="insert"){
         	cin >> p >> x;
-            list.addNode(x);
+		if(list.head==NULL){
+			list.head = Node(x);
+			node = list.head;
+		}
+            	else{
+			list.addNode(node,x);
+			node = node->next;
+		}
         }
         else{
         	cin >> p;
