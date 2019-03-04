@@ -5,39 +5,37 @@ using namespace std;
 struct Node {
 	
 	int data;
+    int position;
 	Node* next;
 
 	// Constructor
-	Node(int data = 0, Node* next = NULL) {
+	Node(int data = 0, int position = 0, Node* next = NULL) {
 		this->data = data;
+		this->position = position;
 		this->next = next;
 	}
 };
 
 class LinkedList{
-	Node* head;
 	
-public:	
+public:
 	int size;
 	
 	// Constructor
 	LinkedList() {
-		head = NULL;
 		size = 0;
 	}
 	
-	void addNode(struct Node* prev_node, int data){
-		Node* new_node = new Node(data);
-  
-    		new_node->data  = new_data; 
+	void addNode(struct Node* prev_node, int data, int position){
+		    Node* new_node = new Node(data,position);
   
     		new_node->next = prev_node->next;  
 		
     		prev_node->next = new_node; 
 	}
 	
-	void deleteNode(int pos) {
-		if (pos > size - 1 || pos < 0) {
+	void deleteNode(struct Node* head, int pos, int max_pos) {
+		if (pos > max_pos || pos < 0) {
 			cout << "Invalid position" << endl;
 			return;
 		}
@@ -49,7 +47,7 @@ public:
 		} else {
 			int i = 1;
 			Node* p = head;
-			while (i < pos && p->next != NULL) {
+			while (p->next->position!=pos+1 && p->next != NULL) {
 				p = p->next;
 				i++;
 			}
@@ -60,8 +58,15 @@ public:
 		}
 	}
 	
-	void changeNodePos(int pos){
+	//void changeNodePos(int pos){
 		
+	//}
+	
+	void print(struct Node* head){
+		do{
+			cout << head->data << " ";
+			head = head->next;
+		}while(head!=NULL);
 	}
 };
 
@@ -70,25 +75,30 @@ int main(){
     cin >> num_input;
     string input_operation;
     LinkedList list;
-    int p,x;
-	struct Node* node;
+    struct Node* head;
+    struct Node* node;
+    int x,p,max_pos = 0;
     for(int i=0;i<num_input;i++){
         cin >> input_operation;
         if(input_operation=="insert"){
         	cin >> p >> x;
-		if(list.head==NULL){
-			list.head = Node(x);
-			node = list.head;
-		}
-            	else{
-			list.addNode(node,x);
-			node = node->next;
-		}
+        	if(max_pos<p){
+        		max_pos = p;
+        	}
+			if(head==NULL){
+				head = new Node(x,p);
+				node = head;
+			}
+        	else{
+				list.addNode(node,x,p);
+				node = node->next;
+			}
         }
         else{
         	cin >> p;
-        	list.deleteNode(p);
-        	list.changeNodePos(p);
+        	list.deleteNode(head,p,max_pos);
+        	//list.changeNodePos(p);
         }
-	}
+    }
+    list.print(head);
 }
