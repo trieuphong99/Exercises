@@ -5,7 +5,7 @@ using namespace std;
 struct Node {
 	
 	int data;
-    int position;
+        int position;
 	Node* next;
 
 	// Constructor
