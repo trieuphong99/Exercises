@@ -9,7 +9,7 @@ struct Node {
 	Node* next;
 
 	// Constructor
-	Node(int data = 0, int position = 0, Node* next = NULL) {
+	Node(int data, int position, Node* next = NULL) {
 		this->data = data;
 		this->position = position;
 		this->next = next;
@@ -45,11 +45,9 @@ public:
 			
 			delete temp;
 		} else {
-			int i = 1;
 			Node* p = head;
-			while (p->next->position!=pos+1 && p->next != NULL) {
+			while (p->next->next->position!=pos+1 && p->next != NULL) {
 				p = p->next;
-				i++;
 			}
 			Node* temp = p->next;
 			p->next = temp->next;
@@ -62,11 +60,11 @@ public:
 		
 	//}
 	
-	void print(struct Node* head){
-		do{
-			cout << head->data << " ";
-			head = head->next;
-		}while(head!=NULL);
+	void print(struct Node* node){
+		while(node!=NULL){
+			cout << node->data << " ";
+			node = node->next;
+		}
 	}
 };
 
@@ -75,7 +73,7 @@ int main(){
     cin >> num_input;
     string input_operation;
     LinkedList list;
-    struct Node* head;
+    struct Node* head = NULL;
     struct Node* node;
     int x,p,max_pos = 0;
     for(int i=0;i<num_input;i++){
